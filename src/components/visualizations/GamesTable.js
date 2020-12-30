@@ -138,7 +138,7 @@ export default class GamesTable extends React.Component {
     };
 
     render() {
-        const gamesCollection = this.props.games.toCollection();
+        const gamesCollection = this.props.filteredGames.toCollection();
         const gamesCollectionPage = gamesCollection.slice(
             (this.state.pageNumber - 1) * GAMES_PER_PAGE,
             this.state.pageNumber * GAMES_PER_PAGE,

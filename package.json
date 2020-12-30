@@ -3,9 +3,13 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@nivo/core": "^0.67.0",
+        "@nivo/line": "^0.67.0",
         "classnames": "^2.2.6",
         "dataframe-js": "^1.4.4",
+        "install": "^0.13.0",
         "node-sass": "^4.14.1",
+        "npm": "^6.14.10",
         "query-string": "^6.13.7",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",

@@ -2,6 +2,7 @@ import React from 'react';
 import './Visualization.scss';
 
 import AggregateStats from './visualizations/AggregateStats';
+import OverTimeStats from './visualizations/OverTimeStats';
 import GamesTable from './visualizations/GamesTable';
 import { Icon, Statistic, Tab } from 'semantic-ui-react';
 
@@ -23,7 +24,7 @@ export default class Visualization extends React.Component {
 
         const panes = [
             {
-                menuItem: 'Overall',
+                menuItem: 'Overview',
                 render: () => (
                     <Tab.Pane>
                         <AggregateStats games={this.props.games} filteredGames={filteredGames} />
@@ -31,10 +32,18 @@ export default class Visualization extends React.Component {
                 ),
             },
             {
+                menuItem: 'Over time',
+                render: () => (
+                    <Tab.Pane>
+                        <OverTimeStats games={this.props.games} filters={this.props.filters} />
+                    </Tab.Pane>
+                ),
+            },
+            {
                 menuItem: 'All games',
                 render: () => (
                     <Tab.Pane>
-                        <GamesTable games={filteredGames} />
+                        <GamesTable filteredGames={filteredGames} />
                     </Tab.Pane>
                 ),
             },
