@@ -1,0 +1,12 @@
+#aggregate-stats-grid {
+    margin-top: 24px;
+
+    .stat-row {
+        margin-bottom: 24px;
+
+        .stat-column {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}

@@ -13,7 +13,7 @@ export default class FilterSidebar extends React.Component {
         openingOptions.unshift({ key: 'any', text: 'Any opening', value: null });
 
         return (
-            <Menu id="filter-sidebar">
+            <Menu id="filter-bar">
                 <Dropdown
                     className="filter-item"
                     value={this.props.filters.userColor}

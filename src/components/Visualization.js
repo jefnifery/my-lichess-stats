@@ -1,12 +1,15 @@
 import React from 'react';
 import './Visualization.scss';
 
+import AggregateStats from './visualizations/AggregateStats';
 import GamesTable from './visualizations/GamesTable';
+import { Tab } from 'semantic-ui-react';
 
 export default class Visualization extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            tab: 'gameTable',
             filters: {},
         };
     }
@@ -18,7 +21,26 @@ export default class Visualization extends React.Component {
             });
         });
 
-        return <GamesTable games={filteredGames} />;
+        const panes = [
+            {
+                menuItem: 'Aggregates',
+                render: () => (
+                    <Tab.Pane>
+                        <AggregateStats games={filteredGames} />
+                    </Tab.Pane>
+                ),
+            },
+            {
+                menuItem: 'All games',
+                render: () => (
+                    <Tab.Pane>
+                        <GamesTable games={filteredGames} />
+                    </Tab.Pane>
+                ),
+            },
+        ];
+
+        return <Tab panes={panes} />;
     };
 
     renderNoGamesFound = () => {
