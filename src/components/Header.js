@@ -33,7 +33,7 @@ export default class Header extends React.Component {
                         className="search-option"
                         onChange={(e, { value }) => this.props.handleUsernameChange(value)}
                         action={{
-                            color: 'blue',
+                            color: 'orange',
                             icon: 'search',
                             onClick: this.props.onSearch,
                             disabled: !this.shouldEnableSearchButton(),

@@ -108,7 +108,7 @@ export default class GamesTable extends React.Component {
                             <Menu.Item
                                 as="a"
                                 onClick={() => this.handlePageChange(this.state.pageNumber - 1)}
-                                disabled={this.state.pageNumber === 1}
+                                disabled={this.state.pageNumber <= 1}
                                 icon
                             >
                                 <Icon name="chevron left" />
@@ -125,7 +125,7 @@ export default class GamesTable extends React.Component {
                             <Menu.Item
                                 as="a"
                                 onClick={() => this.handlePageChange(this.state.pageNumber + 1)}
-                                disabled={this.state.pageNumber === numPages}
+                                disabled={this.state.pageNumber >= numPages}
                                 icon
                             >
                                 <Icon name="chevron right" />

@@ -49,7 +49,11 @@ export default class Visualization extends React.Component {
 
     render() {
         return (
-            <div id="visualization">{this.props.games ? this.renderVisualizations() : this.renderNoGamesFound()}</div>
+            <div id="visualization">
+                {this.props.games && this.props.games.dim()[0] > 0
+                    ? this.renderVisualizations()
+                    : this.renderNoGamesFound()}
+            </div>
         );
     }
 }
