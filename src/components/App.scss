@@ -1,6 +1,10 @@
-#app {
+#app-scroll-container {
     height: 100vh;
-    display: flex;
-    flex-direction: column;
-    min-width: 1200px;
+    overflow-x: auto;
+
+    #app {
+        display: flex;
+        flex-direction: column;
+        min-width: 1200px;
+    }
 }

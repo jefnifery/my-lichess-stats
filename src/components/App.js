@@ -63,25 +63,27 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <div id="app">
-                {this.state.isLoading && (
-                    <Dimmer active>
-                        <Loader>Loading...</Loader>
-                    </Dimmer>
-                )}
-                <Header
-                    username={this.state.username}
-                    options={this.state.options}
-                    handleUsernameChange={this.handleUsernameChange}
-                    handleOptionChange={this.handleOptionChange}
-                    onSearch={this.onSearch}
-                />
-                <FilterSidebar
-                    games={this.state.games}
-                    filters={this.state.filters}
-                    handleFilterChange={this.handleFilterChange}
-                />
-                <Visualization games={this.state.games} filters={this.state.filters} />
+            <div id="app-scroll-container">
+                <div id="app">
+                    {this.state.isLoading && (
+                        <Dimmer active>
+                            <Loader>Loading...</Loader>
+                        </Dimmer>
+                    )}
+                    <Header
+                        username={this.state.username}
+                        options={this.state.options}
+                        handleUsernameChange={this.handleUsernameChange}
+                        handleOptionChange={this.handleOptionChange}
+                        onSearch={this.onSearch}
+                    />
+                    <FilterSidebar
+                        games={this.state.games}
+                        filters={this.state.filters}
+                        handleFilterChange={this.handleFilterChange}
+                    />
+                    <Visualization games={this.state.games} filters={this.state.filters} />
+                </div>
             </div>
         );
     }
