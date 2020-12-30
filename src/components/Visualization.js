@@ -23,10 +23,10 @@ export default class Visualization extends React.Component {
 
         const panes = [
             {
-                menuItem: 'Aggregates',
+                menuItem: 'Overall',
                 render: () => (
                     <Tab.Pane>
-                        <AggregateStats games={filteredGames} />
+                        <AggregateStats games={this.props.games} filteredGames={filteredGames} />
                     </Tab.Pane>
                 ),
             },

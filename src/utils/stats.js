@@ -13,6 +13,7 @@ export function createDataframe(games, username) {
         'blackRating',
         'userColor',
         'oppColor',
+        'oppName',
         'userRating',
         'oppRating',
         'ratingDiff',
@@ -25,7 +26,7 @@ export function createDataframe(games, username) {
 function flattenGames(games, username) {
     return games.map((game) => {
         const id = game.id;
-        const opening = game.opening.name.split(':')[0];
+        const opening = game.opening ? game.opening.name.split(':')[0] : 'Unknown';
         const timestamp = game.createdAt;
 
         const whitePlayer = game.players.white.user.name;
@@ -35,6 +36,7 @@ function flattenGames(games, username) {
 
         const userColor = whitePlayer === username ? 'white' : 'black';
         const oppColor = userColor === 'white' ? 'black' : 'white';
+        const oppName = oppColor === 'white' ? whitePlayer : blackPlayer;
 
         const userRating = game.players[userColor].rating;
         const oppRating = game.players[oppColor].rating;
@@ -52,6 +54,7 @@ function flattenGames(games, username) {
             blackRating,
             userColor,
             oppColor,
+            oppName,
             userRating,
             oppRating,
             ratingDiff,

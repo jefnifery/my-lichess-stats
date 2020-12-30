@@ -8,8 +8,6 @@ export const SEARCH_OPTIONS = {
     ],
     N_GAMES: [
         { key: 'All', text: 'All games (possibly slow)', value: null },
-        { key: '25', text: 'Last 25', value: 25 },
-        { key: '50', text: 'Last 50', value: 50 },
         { key: '100', text: 'Last 100', value: 100 },
         { key: '250', text: 'Last 250', value: 250 },
         { key: '500', text: 'Last 500', value: 500 },

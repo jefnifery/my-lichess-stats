@@ -15,7 +15,7 @@ export default class App extends React.Component {
         this.state = {
             username: 'jefnifery',
             options: {
-                max: 25,
+                max: 100,
                 perfType: null,
             },
             filters: {
