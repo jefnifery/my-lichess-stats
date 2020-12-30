@@ -147,7 +147,7 @@ export default class AggregateStats extends React.Component {
                     ...topOpening,
                     wins,
                     losses,
-                    'win percentage': winPct,
+                    'win percentage': `${winPct}%`,
                 };
             });
 
