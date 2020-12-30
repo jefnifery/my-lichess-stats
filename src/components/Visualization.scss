@@ -3,4 +3,15 @@
     padding: 36px 96px;
     overflow: auto;
     background-color: #ededed;
+
+    #no-games-found {
+        display: flex;
+        flex-direction: column;
+
+        #chess-piece-divider {
+            display: flex;
+            justify-content: space-around;
+            padding: 24px 128px;
+        }
+    }
 }

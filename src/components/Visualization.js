@@ -3,7 +3,7 @@ import './Visualization.scss';
 
 import AggregateStats from './visualizations/AggregateStats';
 import GamesTable from './visualizations/GamesTable';
-import { Tab } from 'semantic-ui-react';
+import { Icon, Statistic, Tab } from 'semantic-ui-react';
 
 export default class Visualization extends React.Component {
     constructor(props) {
@@ -44,7 +44,24 @@ export default class Visualization extends React.Component {
     };
 
     renderNoGamesFound = () => {
-        return <div>No games found</div>;
+        return (
+            <div id="no-games-found">
+                <Statistic size="small">
+                    <Statistic.Value>No games found!</Statistic.Value>
+                    <Statistic.Label>Update your search options and try again.</Statistic.Label>
+                </Statistic>
+                <div id="chess-piece-divider">
+                    <Icon name="chess rook" size="large" />
+                    <Icon name="chess knight" size="large" />
+                    <Icon name="chess bishop" size="large" />
+                    <Icon name="chess king" size="large" />
+                    <Icon name="chess queen" size="large" />
+                    <Icon name="chess bishop" size="large" />
+                    <Icon name="chess knight" size="large" />
+                    <Icon name="chess rook" size="large" />
+                </div>
+            </div>
+        );
     };
 
     render() {

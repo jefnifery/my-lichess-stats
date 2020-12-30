@@ -32,6 +32,7 @@ export default class Header extends React.Component {
                     <Input
                         className="search-option"
                         onChange={(e, { value }) => this.props.handleUsernameChange(value)}
+                        onKeyDown={(e) => e.key === 'Enter' && this.props.onSearch()}
                         action={{
                             color: 'orange',
                             icon: 'search',

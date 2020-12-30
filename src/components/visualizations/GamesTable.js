@@ -85,7 +85,7 @@ export default class GamesTable extends React.Component {
                         icon
                         circular
                     >
-                        <Icon name="chess knight" flipped="horizontally" />
+                        <Icon name="chess knight" />
                         <Icon name="external alternate" />
                     </Button>
                 </Table.Cell>
