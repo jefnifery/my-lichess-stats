@@ -1,0 +1,17 @@
+#header {
+    flex: 0 0 80px;
+    justify-content: space-between;
+    display: flex;
+    padding: 16px 24px;
+    line-height: 48px;
+
+    #title {
+        font-size: 36px;
+    }
+
+    #search-options {
+        .search-option {
+            margin-left: 48px;
+        }
+    }
+}
