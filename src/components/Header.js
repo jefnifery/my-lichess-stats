@@ -7,7 +7,7 @@ import { SEARCH_OPTIONS } from '../constants';
 
 export default class Header extends React.Component {
     shouldEnableSearchButton = () => {
-        return this.props.username;
+        return this.props.username && this.props.options.perfType;
     };
 
     render() {
@@ -19,7 +19,7 @@ export default class Header extends React.Component {
                         className="search-option"
                         onChange={(e, { value }) => this.props.handleOptionChange('perfType', value)}
                         options={SEARCH_OPTIONS.MODES}
-                        placeholder="Any mode"
+                        placeholder="Select a mode"
                         value={this.props.options.mode}
                     />
                     <Dropdown
@@ -32,7 +32,7 @@ export default class Header extends React.Component {
                     <Input
                         className="search-option"
                         onChange={(e, { value }) => this.props.handleUsernameChange(value)}
-                        onKeyDown={(e) => e.key === 'Enter' && this.props.onSearch()}
+                        onKeyDown={(e) => e.key === 'Enter' && this.shouldEnableSearchButton() && this.props.onSearch()}
                         action={{
                             color: 'orange',
                             icon: 'search',

@@ -26,7 +26,7 @@ export default class Visualization extends React.Component {
                 menuItem: 'Overview',
                 render: () => (
                     <Tab.Pane>
-                        <AggregateStats games={this.props.games} filteredGames={filteredGames} />
+                        <AggregateStats games={this.props.games} filteredGames={filteredGames} perf={this.props.perf} />
                     </Tab.Pane>
                 ),
             },
@@ -34,7 +34,7 @@ export default class Visualization extends React.Component {
                 menuItem: 'Over time',
                 render: () => (
                     <Tab.Pane>
-                        <OverTimeStats games={this.props.games} filters={this.props.filters} />
+                        <OverTimeStats games={this.props.games} filters={this.props.filters} perf={this.props.perf} />
                     </Tab.Pane>
                 ),
             },

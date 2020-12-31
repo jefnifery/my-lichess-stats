@@ -6,7 +6,7 @@ import FilterSidebar from './FilterSidebar';
 import Visualization from './Visualization';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
-import { getUserGames } from '../clients/lichessClient';
+import { getUserGames, getUser } from '../clients/lichessClient';
 import { createDataframe } from '../utils/stats';
 
 export default class App extends React.Component {
@@ -16,7 +16,7 @@ export default class App extends React.Component {
             username: 'jefnifery',
             options: {
                 max: 100,
-                perfType: null,
+                perfType: 'blitz',
             },
             filters: {
                 userColor: null,
@@ -24,6 +24,7 @@ export default class App extends React.Component {
                 outcome: null,
             },
             games: null,
+            perf: null,
             isLoading: false,
         };
     }
@@ -58,7 +59,8 @@ export default class App extends React.Component {
         });
         const rawGames = await getUserGames(this.state.username, this.state.options);
         const games = createDataframe(rawGames, this.state.username);
-        this.setState({ games, isLoading: false });
+        const user = await getUser(this.state.username);
+        this.setState({ games, perf: user.perfs[this.state.options.perfType], isLoading: false });
     };
 
     render() {
@@ -82,7 +84,7 @@ export default class App extends React.Component {
                         filters={this.state.filters}
                         handleFilterChange={this.handleFilterChange}
                     />
-                    <Visualization games={this.state.games} filters={this.state.filters} />
+                    <Visualization games={this.state.games} filters={this.state.filters} perf={this.state.perf} />
                 </div>
             </div>
         );

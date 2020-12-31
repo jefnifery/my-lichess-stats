@@ -91,9 +91,9 @@ export default class AggregateStats extends React.Component {
     };
 
     renderRatingsSection = () => {
-        const avgRating = Math.round(this.props.games.stat.average('userRating'));
-        const maxRating = this.props.games.stat.max('userRating');
-        const minRating = this.props.games.stat.min('userRating');
+        const currRating = this.props.perf.rating;
+        const maxRating = Math.max(this.props.games.stat.max('userRating'), currRating);
+        const minRating = Math.min(this.props.games.stat.min('userRating'), currRating);
 
         const filteredGamesCollection = this.props.filteredGames.toCollection();
         const winExtremes = filteredGamesCollection.reduce((acc, game) => {
@@ -117,7 +117,7 @@ export default class AggregateStats extends React.Component {
                 </Grid.Row>
                 <Grid.Row className="stat-row">
                     {this.renderSimpleStatisticColumn(maxRating, 'peak', { size: 'tiny' })}
-                    {this.renderSimpleStatisticColumn(avgRating, 'your average rating')}
+                    {this.renderSimpleStatisticColumn(currRating, 'your current rating')}
                     {this.renderSimpleStatisticColumn(minRating, 'slump', { size: 'tiny' })}
                 </Grid.Row>
                 <Grid.Row className="stat-row">

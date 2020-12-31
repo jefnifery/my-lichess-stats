@@ -1,7 +1,11 @@
 #over-time-charts {
     padding: 24px;
 
-    .chart-container {
-        height: 480px;
+    .chart-container.rating {
+        height: 360px;
+    }
+
+    .chart-container.rating-delta {
+        height: 200px;
     }
 }

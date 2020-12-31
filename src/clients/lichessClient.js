@@ -26,3 +26,17 @@ export async function getUserGames(username, options = {}) {
 
     return text.match(/.+/g).map(JSON.parse);
 }
+
+export async function getUser(username) {
+    const res = await fetch(`${LICHESS_PREFIX}/user/${username}`, {
+        headers: {
+            Accept: 'application/json',
+        },
+    });
+
+    if (res.status !== 200) {
+        return null;
+    }
+
+    return res.json();
+}

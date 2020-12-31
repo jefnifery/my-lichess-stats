@@ -1,6 +1,5 @@
 export const SEARCH_OPTIONS = {
     MODES: [
-        { key: 'any', text: 'Any mode', value: null },
         { key: 'bullet', text: 'Bullet', value: 'bullet' },
         { key: 'blitz', text: 'Blitz', value: 'blitz' },
         { key: 'rapid', text: 'Rapid', value: 'rapid' },

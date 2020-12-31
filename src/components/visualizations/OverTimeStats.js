@@ -19,8 +19,7 @@ const Y_AXIS_OPTIONS = {
 };
 
 const DEFAULT_LINE_CHART_PROPS = {
-    colors: { scheme: 'nivo' },
-    margin: { top: 8, right: 48, bottom: 64, left: 72 },
+    xScale: { type: 'linear' },
     useMesh: true,
     lineWidth: 1,
     enableArea: true,
@@ -44,8 +43,50 @@ export default class OverTimeStats extends React.Component {
         );
     }
 
-    renderRatingChart() {
-        const gamesInTimeOrder = this.props.games.toCollection().reverse();
+    renderRatingDeltaChart(gamesInTimeOrder) {
+        const data = [];
+        gamesInTimeOrder.forEach((game, i) => {
+            const nextRating = gamesInTimeOrder[i + 1] ? gamesInTimeOrder[i + 1].userRating : this.props.perf.rating;
+            data.push({
+                x: i,
+                y: nextRating - game.userRating,
+            });
+        });
+
+        const userRatingDeltaData = [
+            {
+                id: 'User rating change',
+                data,
+            },
+        ];
+
+        return (
+            <div className="chart-container rating-delta">
+                <ResponsiveLine
+                    {...DEFAULT_LINE_CHART_PROPS}
+                    data={userRatingDeltaData}
+                    margin={{ top: 8, right: 48, bottom: 64, left: 72 }}
+                    yScale={{ type: 'linear', min: -10, max: 10 }}
+                    gridYValues={[-8, -4, 0, 4, 8]}
+                    axisBottom={{
+                        ...X_AXIS_OPTIONS,
+                        legend: 'Game',
+                    }}
+                    axisLeft={{
+                        ...Y_AXIS_OPTIONS,
+                        legend: 'Change',
+                    }}
+                    pointBorderColor={(d) => {
+                        return this.doesGameMatchFilters(gamesInTimeOrder[d.index])
+                            ? 'rgb(97, 205, 187)'
+                            : { theme: 'background' };
+                    }}
+                />
+            </div>
+        );
+    }
+
+    renderRatingChart(gamesInTimeOrder) {
         let minRating = 10000;
         let maxRating = 0;
         const userRatingData = [
@@ -63,23 +104,21 @@ export default class OverTimeStats extends React.Component {
         ];
 
         return (
-            <div className="chart-container">
+            <div className="chart-container rating">
                 <ResponsiveLine
                     {...DEFAULT_LINE_CHART_PROPS}
                     data={userRatingData}
-                    xScale={{ type: 'linear' }}
+                    colors="rgb(232, 168, 56)"
+                    margin={{ top: 8, right: 48, bottom: 12, left: 72 }}
                     yScale={{
                         type: 'linear',
                         min: minRating - RATING_CHART_AXIS_PADDING,
                         max: maxRating + RATING_CHART_AXIS_PADDING,
                     }}
-                    axisBottom={{
-                        ...X_AXIS_OPTIONS,
-                        legend: 'Game',
-                    }}
+                    axisBottom={null}
                     axisLeft={{
                         ...Y_AXIS_OPTIONS,
-                        legend: 'User rating',
+                        legend: 'Rating',
                     }}
                     areaBaselineValue={minRating - RATING_CHART_AXIS_PADDING}
                     pointBorderColor={(d) => {
@@ -93,10 +132,12 @@ export default class OverTimeStats extends React.Component {
     }
 
     render() {
+        const gamesInTimeOrder = this.props.games.toCollection().reverse();
         return (
             <div id="over-time-charts">
                 <h2 className="chart-header">Your rating</h2>
-                {this.renderRatingChart()}
+                {this.renderRatingChart(gamesInTimeOrder)}
+                {this.renderRatingDeltaChart(gamesInTimeOrder)}
             </div>
         );
     }
