@@ -11,7 +11,6 @@ export default class OverTimeStats extends React.Component {
         const userRatingData = [
             {
                 id: 'User rating',
-                color: 'hsl(42, 70%, 50%)',
                 data: gamesInTimeOrder.map((game, i) => {
                     minRating = Math.min(minRating, game.userRating);
                     maxRating = Math.max(maxRating, game.userRating);
@@ -27,6 +26,10 @@ export default class OverTimeStats extends React.Component {
             <div className="chart-container">
                 <ResponsiveLine
                     data={userRatingData}
+                    colors={{ scheme: 'nivo' }}
+                    lineWidth={1}
+                    enableArea
+                    areaBaselineValue={minRating - 25}
                     margin={{ top: 48, right: 48, bottom: 64, left: 72 }}
                     xScale={{ type: 'linear' }}
                     yScale={{ type: 'linear', min: minRating - 25, max: maxRating + 25 }}
@@ -45,7 +48,7 @@ export default class OverTimeStats extends React.Component {
                         legendPosition: 'middle',
                     }}
                     pointSize={0}
-                    pointLabelYOffset={-12}
+                    pointLabelYOffset={-16}
                     useMesh={true}
                 />
             </div>
