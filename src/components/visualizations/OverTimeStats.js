@@ -45,8 +45,9 @@ export default class OverTimeStats extends React.Component {
         );
     }
 
-    renderRatingTooltip = (d, gamesInTimeOrder) => {
+    renderRatingTooltip = (d, gamesInTimeOrder, ratingDeltas) => {
         const game = gamesInTimeOrder[d.point.index];
+        const delta = ratingDeltas[d.point.index].y;
         const date = new Date(game.timestamp).toDateString();
         return (
             <div className="rating-tooltip">
@@ -63,12 +64,19 @@ export default class OverTimeStats extends React.Component {
                     <Icon name="chess" color="grey" />
                     {game.opening}
                 </div>
+                <div
+                    className="tooltip-metadata"
+                    style={{ color: delta === 0 ? 'black' : delta > 0 ? 'green' : 'red' }}
+                >
+                    <Icon name="chess board" color="grey" />
+                    {`Rating ${delta >= 0 ? '+' : ''}${delta}`}
+                </div>
                 <div className="tooltip-date">{date}</div>
             </div>
         );
     };
 
-    renderRatingChart(gamesInTimeOrder) {
+    renderRatingChart(gamesInTimeOrder, ratingDeltas) {
         let minRating = 10000;
         let maxRating = 0;
         const userRatingData = [
@@ -108,26 +116,17 @@ export default class OverTimeStats extends React.Component {
                             ? 'rgb(97, 205, 187)'
                             : { theme: 'background' };
                     }}
-                    tooltip={(d) => this.renderRatingTooltip(d, gamesInTimeOrder)}
+                    tooltip={(d) => this.renderRatingTooltip(d, gamesInTimeOrder, ratingDeltas)}
                 />
             </div>
         );
     }
 
-    renderRatingDeltaChart(gamesInTimeOrder) {
-        const data = [];
-        gamesInTimeOrder.forEach((game, i) => {
-            const nextRating = gamesInTimeOrder[i + 1] ? gamesInTimeOrder[i + 1].userRating : this.props.perf.rating;
-            data.push({
-                x: i,
-                y: nextRating - game.userRating,
-            });
-        });
-
+    renderRatingDeltaChart(gamesInTimeOrder, ratingDeltas) {
         const userRatingDeltaData = [
             {
                 id: 'User rating change',
-                data,
+                data: ratingDeltas,
             },
         ];
 
@@ -152,6 +151,7 @@ export default class OverTimeStats extends React.Component {
                             ? 'rgb(97, 205, 187)'
                             : { theme: 'background' };
                     }}
+                    tooltip={(d) => this.renderRatingTooltip(d, gamesInTimeOrder, ratingDeltas)}
                 />
             </div>
         );
@@ -159,11 +159,21 @@ export default class OverTimeStats extends React.Component {
 
     render() {
         const gamesInTimeOrder = this.props.games.toCollection().reverse();
+
+        const ratingDeltas = [];
+        gamesInTimeOrder.forEach((game, i) => {
+            const nextRating = gamesInTimeOrder[i + 1] ? gamesInTimeOrder[i + 1].userRating : this.props.perf.rating;
+            ratingDeltas.push({
+                x: i,
+                y: nextRating - game.userRating,
+            });
+        });
+
         return (
             <div id="over-time-charts">
                 <h2 className="chart-header">Your rating</h2>
-                {this.renderRatingChart(gamesInTimeOrder)}
-                {this.renderRatingDeltaChart(gamesInTimeOrder)}
+                {this.renderRatingChart(gamesInTimeOrder, ratingDeltas)}
+                {this.renderRatingDeltaChart(gamesInTimeOrder, ratingDeltas)}
             </div>
         );
     }
