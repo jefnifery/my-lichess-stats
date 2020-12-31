@@ -1,8 +1,8 @@
 import React from 'react';
 import './GamesTable.scss';
 
+import PlayerVersus from '../reusable/PlayerVersus';
 import { Menu, Table, Icon, Dropdown, Button } from 'semantic-ui-react';
-import classNames from 'classnames';
 
 const GAMES_PER_PAGE = 15;
 
@@ -35,36 +35,14 @@ export default class GamesTable extends React.Component {
     };
 
     renderRow = (game) => {
-        const { id, opening, timestamp, whitePlayer, whiteRating, blackPlayer, blackRating, userColor, outcome } = game;
+        const { id, opening, timestamp, outcome } = game;
 
-        const date = new Date(timestamp);
+        const date = new Date(timestamp).toDateString();
 
         return (
             <Table.Row key={id}>
                 <Table.Cell className="players-cell">
-                    <div
-                        className={classNames('player', 'white', {
-                            user: userColor === 'white',
-                        })}
-                    >
-                        <Icon name="chess pawn" color="grey" />
-                        <div className="player-info">
-                            <div className="player-name">{whitePlayer}</div>
-                            <div className="player-rating">{whiteRating}</div>
-                        </div>
-                    </div>
-                    <div className="vs-text">vs</div>
-                    <div
-                        className={classNames('player', 'black', {
-                            user: userColor === 'black',
-                        })}
-                    >
-                        <div className="player-info">
-                            <div className="player-name">{blackPlayer}</div>
-                            <div className="player-rating">{blackRating}</div>
-                        </div>
-                        <Icon name="chess pawn" />
-                    </div>
+                    <PlayerVersus game={game} />
                 </Table.Cell>
                 <Table.Cell className="outcome-cell">
                     <Icon
@@ -75,7 +53,7 @@ export default class GamesTable extends React.Component {
                     {outcome}
                 </Table.Cell>
                 <Table.Cell>{opening}</Table.Cell>
-                <Table.Cell>{date.toDateString()}</Table.Cell>
+                <Table.Cell>{date}</Table.Cell>
                 <Table.Cell>
                     <Button
                         as="a"

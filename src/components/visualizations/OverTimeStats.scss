@@ -8,4 +8,28 @@
     .chart-container.rating-delta {
         height: 200px;
     }
+
+    .rating-tooltip {
+        background-color: white;
+        box-shadow: 1px 1px 2px 2px lightgray;
+        border-radius: 4px;
+        padding: 16px;
+
+        .divider {
+            margin: 4px 0px;
+        }
+
+        .tooltip-metadata {
+            font-size: 12px;
+
+            .icon {
+                margin-right: 8px;
+            }
+        }
+
+        .tooltip-date {
+            text-align: right;
+            font-size: 10px;
+        }
+    }
 }

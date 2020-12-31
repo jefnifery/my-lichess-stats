@@ -1,0 +1,52 @@
+.versus-wrapper {
+    display: flex;
+
+    .player {
+        display: flex;
+
+        .icon {
+            flex: 1 0 auto;
+        }
+
+        .player-info {
+            flex: 0 0 auto;
+
+            .player-name {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .player-rating {
+                font-size: 12px;
+            }
+        }
+
+        &.white {
+            justify-content: flex-end;
+
+            .player-info {
+                text-align: right;
+            }
+        }
+
+        &.black {
+            justify-content: flex-start;
+
+            .player-info {
+                text-align: left;
+            }
+        }
+
+        &.user {
+            .player-name {
+                font-weight: bolder;
+            }
+        }
+    }
+
+    .vs-text {
+        text-align: center;
+        padding: 6px 0px;
+    }
+}

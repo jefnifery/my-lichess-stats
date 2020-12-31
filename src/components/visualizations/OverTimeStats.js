@@ -2,6 +2,8 @@ import React from 'react';
 import './OverTimeStats.scss';
 
 import { ResponsiveLine } from '@nivo/line';
+import { Icon, Divider } from 'semantic-ui-react';
+import PlayerVersus from '../reusable/PlayerVersus';
 
 const RATING_CHART_AXIS_PADDING = 25;
 
@@ -43,48 +45,28 @@ export default class OverTimeStats extends React.Component {
         );
     }
 
-    renderRatingDeltaChart(gamesInTimeOrder) {
-        const data = [];
-        gamesInTimeOrder.forEach((game, i) => {
-            const nextRating = gamesInTimeOrder[i + 1] ? gamesInTimeOrder[i + 1].userRating : this.props.perf.rating;
-            data.push({
-                x: i,
-                y: nextRating - game.userRating,
-            });
-        });
-
-        const userRatingDeltaData = [
-            {
-                id: 'User rating change',
-                data,
-            },
-        ];
-
+    renderRatingTooltip = (d, gamesInTimeOrder) => {
+        const game = gamesInTimeOrder[d.point.index];
+        const date = new Date(game.timestamp).toDateString();
         return (
-            <div className="chart-container rating-delta">
-                <ResponsiveLine
-                    {...DEFAULT_LINE_CHART_PROPS}
-                    data={userRatingDeltaData}
-                    margin={{ top: 8, right: 48, bottom: 64, left: 72 }}
-                    yScale={{ type: 'linear', min: -10, max: 10 }}
-                    gridYValues={[-8, -4, 0, 4, 8]}
-                    axisBottom={{
-                        ...X_AXIS_OPTIONS,
-                        legend: 'Game',
-                    }}
-                    axisLeft={{
-                        ...Y_AXIS_OPTIONS,
-                        legend: 'Change',
-                    }}
-                    pointBorderColor={(d) => {
-                        return this.doesGameMatchFilters(gamesInTimeOrder[d.index])
-                            ? 'rgb(97, 205, 187)'
-                            : { theme: 'background' };
-                    }}
-                />
+            <div className="rating-tooltip">
+                <PlayerVersus game={game} justify />
+                <Divider fitted />
+                <div className="tooltip-metadata">
+                    <Icon
+                        name="winner"
+                        color={game.outcome === 'tie' ? 'grey' : game.outcome === 'won' ? 'green' : 'red'}
+                    />
+                    {game.outcome === 'tie' ? 'Tied' : game.outcome === 'won' ? 'Won' : 'Lost'}
+                </div>
+                <div className="tooltip-metadata">
+                    <Icon name="chess" color="grey" />
+                    {game.opening}
+                </div>
+                <div className="tooltip-date">{date}</div>
             </div>
         );
-    }
+    };
 
     renderRatingChart(gamesInTimeOrder) {
         let minRating = 10000;
@@ -121,6 +103,50 @@ export default class OverTimeStats extends React.Component {
                         legend: 'Rating',
                     }}
                     areaBaselineValue={minRating - RATING_CHART_AXIS_PADDING}
+                    pointBorderColor={(d) => {
+                        return this.doesGameMatchFilters(gamesInTimeOrder[d.index])
+                            ? 'rgb(97, 205, 187)'
+                            : { theme: 'background' };
+                    }}
+                    tooltip={(d) => this.renderRatingTooltip(d, gamesInTimeOrder)}
+                />
+            </div>
+        );
+    }
+
+    renderRatingDeltaChart(gamesInTimeOrder) {
+        const data = [];
+        gamesInTimeOrder.forEach((game, i) => {
+            const nextRating = gamesInTimeOrder[i + 1] ? gamesInTimeOrder[i + 1].userRating : this.props.perf.rating;
+            data.push({
+                x: i,
+                y: nextRating - game.userRating,
+            });
+        });
+
+        const userRatingDeltaData = [
+            {
+                id: 'User rating change',
+                data,
+            },
+        ];
+
+        return (
+            <div className="chart-container rating-delta">
+                <ResponsiveLine
+                    {...DEFAULT_LINE_CHART_PROPS}
+                    data={userRatingDeltaData}
+                    margin={{ top: 8, right: 48, bottom: 64, left: 72 }}
+                    yScale={{ type: 'linear', min: -10, max: 10 }}
+                    gridYValues={[-8, -4, 0, 4, 8]}
+                    axisBottom={{
+                        ...X_AXIS_OPTIONS,
+                        legend: 'Game',
+                    }}
+                    axisLeft={{
+                        ...Y_AXIS_OPTIONS,
+                        legend: 'Change',
+                    }}
                     pointBorderColor={(d) => {
                         return this.doesGameMatchFilters(gamesInTimeOrder[d.index])
                             ? 'rgb(97, 205, 187)'
