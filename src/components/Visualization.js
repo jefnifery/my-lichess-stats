@@ -11,7 +11,6 @@ export default class Visualization extends React.Component {
         super(props);
         this.state = {
             tab: 'gameTable',
-            filters: {},
         };
     }
 

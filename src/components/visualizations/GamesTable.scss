@@ -6,7 +6,19 @@
             display: flex;
             width: 40%;
 
+            .icon {
+                width: 16px;
+            }
+
             .player-info {
+                flex: 1 0 auto;
+
+                .player-name {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
                 .player-rating {
                     font-size: 12px;
                 }
