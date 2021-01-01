@@ -13,10 +13,10 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: 'jefnifery',
+            username: '',
             options: {
-                max: 100,
-                perfType: 'blitz',
+                max: null,
+                perfType: null,
             },
             filters: {
                 userColor: null,
