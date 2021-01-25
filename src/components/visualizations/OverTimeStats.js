@@ -1,7 +1,7 @@
 import React from 'react';
 import './OverTimeStats.scss';
 
-import { ResponsiveLineCanvas as ResponsiveLine } from '@nivo/line';
+import { ResponsiveLine } from '@nivo/line';
 import { Icon, Divider } from 'semantic-ui-react';
 import PlayerVersus from '../reusable/PlayerVersus';
 
@@ -22,7 +22,7 @@ const Y_AXIS_OPTIONS = {
 
 const DEFAULT_LINE_CHART_PROPS = {
     xScale: { type: 'linear' },
-    useMesh: true,
+    enableSlices: 'x',
     lineWidth: 1,
     enableArea: true,
     pointSize: 6,
@@ -53,9 +53,9 @@ export default class OverTimeStats extends React.Component {
         return doesGameMatchFilters;
     }
 
-    renderRatingTooltip = (d, gamesInTimeOrder, ratingDeltas) => {
-        const game = gamesInTimeOrder[d.point.index];
-        const delta = ratingDeltas[d.point.index].y;
+    renderRatingTooltip = (point, gamesInTimeOrder, ratingDeltas) => {
+        const game = gamesInTimeOrder[point.index];
+        const delta = ratingDeltas[point.index].y;
         const date = new Date(game.timestamp).toDateString();
         return (
             <div className="rating-tooltip">
@@ -122,7 +122,7 @@ export default class OverTimeStats extends React.Component {
                     pointBorderColor={(d) => {
                         return this.doesGameMatchFilters(gamesInTimeOrder[d.index]) ? 'rgb(97, 205, 187)' : 'lightgrey';
                     }}
-                    tooltip={(d) => this.renderRatingTooltip(d, gamesInTimeOrder, ratingDeltas)}
+                    sliceTooltip={(d) => this.renderRatingTooltip(d.slice.points[0], gamesInTimeOrder, ratingDeltas)}
                 />
             </div>
         );
@@ -155,7 +155,7 @@ export default class OverTimeStats extends React.Component {
                     pointBorderColor={(d) => {
                         return this.doesGameMatchFilters(gamesInTimeOrder[d.index]) ? 'rgb(97, 205, 187)' : 'lightgrey';
                     }}
-                    tooltip={(d) => this.renderRatingTooltip(d, gamesInTimeOrder, ratingDeltas)}
+                    sliceTooltip={(d) => this.renderRatingTooltip(d.slice.points[0], gamesInTimeOrder, ratingDeltas)}
                 />
             </div>
         );
