@@ -1,7 +1,7 @@
 import React from 'react';
 import './OverTimeStats.scss';
 
-import { ResponsiveLine } from '@nivo/line';
+import { ResponsiveLineCanvas as ResponsiveLine } from '@nivo/line';
 import { Icon, Divider } from 'semantic-ui-react';
 import PlayerVersus from '../reusable/PlayerVersus';
 
@@ -25,7 +25,7 @@ const DEFAULT_LINE_CHART_PROPS = {
     useMesh: true,
     lineWidth: 1,
     enableArea: true,
-    pointSize: 8,
+    pointSize: 6,
     pointColor: { theme: 'background' },
     pointBorderWidth: 2,
     pointBorderColor: { theme: 'background' },
@@ -33,16 +33,24 @@ const DEFAULT_LINE_CHART_PROPS = {
 };
 
 export default class OverTimeStats extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            hoveredIndex: null,
+        };
+    }
+
     doesGameMatchFilters(game) {
         const filters = this.props.filters;
-        return (
+        const doesGameMatchFilters =
             Object.keys(filters).every((filterKey) => {
                 return !filters[filterKey] || filters[filterKey] === game[filterKey];
             }) &&
             Object.values(filters).some((filterValue) => {
                 return filterValue;
-            })
-        );
+            });
+        return doesGameMatchFilters;
     }
 
     renderRatingTooltip = (d, gamesInTimeOrder, ratingDeltas) => {
@@ -112,9 +120,7 @@ export default class OverTimeStats extends React.Component {
                     }}
                     areaBaselineValue={minRating - RATING_CHART_AXIS_PADDING}
                     pointBorderColor={(d) => {
-                        return this.doesGameMatchFilters(gamesInTimeOrder[d.index])
-                            ? 'rgb(97, 205, 187)'
-                            : { theme: 'background' };
+                        return this.doesGameMatchFilters(gamesInTimeOrder[d.index]) ? 'rgb(97, 205, 187)' : 'lightgrey';
                     }}
                     tooltip={(d) => this.renderRatingTooltip(d, gamesInTimeOrder, ratingDeltas)}
                 />
@@ -147,9 +153,7 @@ export default class OverTimeStats extends React.Component {
                         legend: 'Change',
                     }}
                     pointBorderColor={(d) => {
-                        return this.doesGameMatchFilters(gamesInTimeOrder[d.index])
-                            ? 'rgb(97, 205, 187)'
-                            : { theme: 'background' };
+                        return this.doesGameMatchFilters(gamesInTimeOrder[d.index]) ? 'rgb(97, 205, 187)' : 'lightgrey';
                     }}
                     tooltip={(d) => this.renderRatingTooltip(d, gamesInTimeOrder, ratingDeltas)}
                 />
